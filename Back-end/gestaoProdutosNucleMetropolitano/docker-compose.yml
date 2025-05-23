@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: gestaoprodutos-container
+    ports:
+      - "13434:13434"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3401/nm_gestao_de_produtos
+      SPRING_DATASOURCE_USERNAME: spring_boot_user
+      SPRING_DATASOURCE_PASSWORD: gNrPnTpWr5t8vA9DcF8DbGdJffHhJkLmZq3t6w
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+
+      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+      SPRING_JPA_SHOW_SQL: "true"
+      SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL: "true"
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
+
+      APP_JWT_SECRET: dAufiUkD2NpdMXxEVln4NJNletH8okK41H5le4LATLTn0yCKZYBT0XnawM1c4FY9tgBM0ILipdBlDmCpF8X9vg==
+      APP_JWT_EXPIRATION_MS: "86400000"
+
+
+    restart: on-failure

@@ -1,0 +1,43 @@
+{
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#123333",
+        "titleBar.activeBackground": "#1A4747",
+        "titleBar.activeForeground": "#F4FBFB"
+    },
+    "cSpell.words": [
+        "amazoncorretto",
+        "atualizacao",
+        "Avancados",
+        "configurer",
+        "Configurer",
+        "criacao",
+        "DATASOURCE",
+        "debian",
+        "descricao",
+        "Descricao",
+        "Dskip",
+        "gestao",
+        "gestaoprodutos",
+        "jackson",
+        "jdbc",
+        "jjwt",
+        "jsonwebtoken",
+        "jupiter",
+        "Jwts",
+        "Lancar",
+        "lombok",
+        "mockito",
+        "mysql",
+        "Nucle",
+        "Nucleo",
+        "nullable",
+        "openapi",
+        "projectlombok",
+        "springdoc",
+        "springframework",
+        "usuario",
+        "Usuarios",
+        "webjars",
+        "webmvc"
+    ]
+}
