@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_dev
+    environment:
+      MYSQL_ROOT_PASSWORD: cFfHhJTpWr5t8kLmZq3t6w3y6B8DbGdJfNjQmSqVs
+      MYSQL_DATABASE: nm_gestao_de_produtos
+      MYSQL_USER: spring_boot_user
+      MYSQL_PASSWORD: gNrPnTpWr5t8vA9DcF8DbGdJffHhJkLmZq3t6w
+      MYSQL_TCP_PORT: 3306
+    ports:
+      - "3401:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d  # Pasta para scripts SQL iniciais
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+    command: 
+      - --default-authentication-plugin=mysql_native_password
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+
+volumes:
+  mysql_data:

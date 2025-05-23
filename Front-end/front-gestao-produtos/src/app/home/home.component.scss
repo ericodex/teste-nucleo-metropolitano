@@ -1,0 +1,161 @@
+/* Estilo moderno e formal para a página Home (Login) */
+
+.home-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f0f2f5;
+  /* Fundo cinza claro para um toque moderno */
+  font-family: 'Inter', sans-serif;
+  /* Fonte moderna e legível */
+}
+
+.login-card {
+  background-color: #ffffff;
+  padding: 2.5rem;
+  border-radius: 12px;
+  /* Cantos mais arredondados */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  /* Sombra mais suave e proeminente */
+  width: 100%;
+  max-width: 400px;
+  /* Largura máxima para o card */
+  text-align: center;
+  border: 1px solid #e0e0e0;
+  /* Borda sutil */
+}
+
+.login-title {
+  font-size: 2rem;
+  /* Título maior */
+  font-weight: 700;
+  /* Mais negrito */
+  color: #333333;
+  margin-bottom: 0.5rem;
+}
+
+.login-subtitle {
+  font-size: 1rem;
+  color: #666666;
+  margin-bottom: 2rem;
+}
+
+.input-group {
+  margin-bottom: 1.5rem;
+  text-align: left;
+  /* Alinha labels à esquerda */
+}
+
+.input-label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #555555;
+  margin-bottom: 0.5rem;
+}
+
+.input-field {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #cccccc;
+  border-radius: 8px;
+  /* Cantos arredondados para inputs */
+  font-size: 1rem;
+  color: #333333;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+  &:focus {
+    outline: none;
+    border-color: #007bff;
+    /* Azul vibrante no foco */
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+    /* Sombra de foco suave */
+  }
+}
+
+.error-message {
+  color: #dc3545;
+  /* Vermelho para mensagens de erro */
+  font-size: 0.875rem;
+  margin-top: -1rem;
+  /* Ajusta o espaçamento */
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.button-group {
+  margin-top: 2rem;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 0.85rem 1.5rem;
+  background-color: #007bff;
+  /* Azul primário */
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+
+  &:hover {
+    background-color: #0056b3;
+    /* Azul mais escuro no hover */
+    transform: translateY(-2px);
+    /* Efeito sutil de elevação */
+  }
+
+  &:disabled {
+    background-color: #a0c9f1;
+    /* Azul mais claro e opaco quando desabilitado */
+    cursor: not-allowed;
+    transform: none;
+  }
+}
+
+.register-section {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #eeeeee;
+  /* Linha divisória sutil */
+}
+
+.register-text {
+  font-size: 0.95rem;
+  color: #777777;
+  margin-bottom: 1rem;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  /* Cinza secundário */
+  color: #ffffff;
+  padding: 0.75rem 1.25rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+
+  &:hover {
+    background-color: #5a6268;
+    /* Cinza mais escuro no hover */
+    transform: translateY(-2px);
+  }
+}
+
+/* Responsividade básica */
+@media (max-width: 600px) {
+  .login-card {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+
+  .login-title {
+    font-size: 1.75rem;
+  }
+}
