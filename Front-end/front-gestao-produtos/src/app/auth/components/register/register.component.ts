@@ -1,14 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from '../../../../core/services/auth.service';
-import { RegisterRequest } from '../../../models/register-request.model';
+import { AuthService } from '../../../core/services/auth.service'; // Corrigido o caminho do AuthService
+import { RegisterRequest } from '../../models/register-request.model'; // Ajustado o caminho do modelo
 import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  // REMOVIDO: HttpClientModule dos imports
   imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],

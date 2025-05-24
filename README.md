@@ -59,7 +59,7 @@ mvn test
 
 Acesse o Swagger da aplicação em `http://localhost:13434/api/swagger-ui/index.html` para visualizar a documentação das APIs disponíveis.
 
-### 4. Acesse o diretório '\frontend' e execute o comando para rodar a aplicação Angular
+### 4. Acesse o diretório '\frontend\front-gestao-produtos' e execute o comando para rodar a aplicação Angular
 
 ```bash
 ng serve
