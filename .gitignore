@@ -48,3 +48,4 @@ Front-end/front-gestao-produtos/src/environments/environment.local.ts
 .#*
 .gitkeep
 .gitattributes
+**/cache/

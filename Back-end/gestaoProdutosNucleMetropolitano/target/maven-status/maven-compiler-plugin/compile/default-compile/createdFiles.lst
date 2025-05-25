@@ -9,7 +9,6 @@ com\gestaoprodutos\repository\ProdutoRepositoryCustom.class
 com\gestaoprodutos\model\enums\Role.class
 com\gestaoprodutos\security\UserPrincipal.class
 com\gestaoprodutos\controller\ProdutoController.class
-com\gestaoprodutos\gestaoProdutosNucleoMetropolitano\KeyGenerator.class
 com\gestaoprodutos\controller\AuthController.class
 com\gestaoprodutos\service\AuthService.class
 com\gestaoprodutos\model\entity\Produto.class
