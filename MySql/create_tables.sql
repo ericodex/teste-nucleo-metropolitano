@@ -39,3 +39,10 @@ CREATE TABLE produto (
     INDEX idx_produto_cidade (cidade_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+INSERT INTO nm_gestao_de_produtos.cidade
+(id, nome, estado, data_criacao, data_atualizacao)
+VALUES(1, 'Uberlândia', 'MG', '2025-05-23 09:00:13', '2025-05-23 09:00:13');
+
+INSERT INTO nm_gestao_de_produtos.cidade
+(id, nome, estado, data_criacao, data_atualizacao)
+VALUES(2, 'Patos de Minas', 'MG', '2025-05-23 09:00:13', '2025-05-23 09:00:13');

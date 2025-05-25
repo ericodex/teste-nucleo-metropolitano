@@ -1,52 +1,76 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject, of } from 'rxjs';
-import { tap, catchError } from 'rxjs/operators';
+import { Observable, BehaviorSubject, of, from } from 'rxjs';
+import {
+  tap,
+  catchError,
+  switchMap,
+  filter,
+  map as rxjsMap,
+} from 'rxjs/operators';
 import { Router } from '@angular/router';
 
-import { RegisterRequest } from '../../auth/models/register-request.model';
-import { RegistrationResponse } from '../../auth/models/registration-response.model';
-import { LoginRequest } from '../../auth/models/login-request.model';
-import { JwtResponse } from '../../auth/models/jwt-response.model';
-
+import { AutenticacaoService } from '../api/services/autenticacao.service';
+import {
+  ComGestaoprodutosDtoRequestLoginRequest as LoginRequest,
+  ComGestaoprodutosDtoRequestRegisterRequest as RegisterRequest,
+  ComGestaoprodutosDtoResponseJwtResponse as JwtResponse,
+} from '../api/models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private baseAuthUrl = '/api/v1/auth';
-
   private _isLoggedIn = new BehaviorSubject<boolean>(this.hasToken());
-  public isLoggedIn$ = this._isLoggedIn.asObservable(); // Observable público
+  public isLoggedIn$ = this._isLoggedIn.asObservable();
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private autenticacaoService: AutenticacaoService
+  ) {}
 
   private hasToken(): boolean {
     const token = localStorage.getItem('access_token');
     return !!token;
   }
 
-  register(userData: RegisterRequest): Observable<RegistrationResponse> {
-    return this.http.post<RegistrationResponse>(
-      `${this.baseAuthUrl}/register`,
-      userData
-    );
+  register(userData: RegisterRequest): Observable<number> {
+    return this.autenticacaoService.register({ body: userData });
   }
 
-  login(credentials: LoginRequest): Observable<JwtResponse> {
-    return this.http
-      .post<JwtResponse>(`${this.baseAuthUrl}/login`, credentials)
-      .pipe(
-        tap((response) => {
+  login(credentials: LoginRequest): Observable<boolean> {
+    return this.autenticacaoService.login({ body: credentials }).pipe(
+      switchMap((responseBlob: Blob | JwtResponse) => {
+        if (responseBlob instanceof Blob) {
+          return from(responseBlob.text()).pipe(
+            rxjsMap((text) => {
+              try {
+                return JSON.parse(text) as JwtResponse;
+              } catch (e) {
+                throw new Error('Falha ao parsear resposta do backend.');
+              }
+            })
+          );
+        }
+        return of(responseBlob as JwtResponse);
+      }),
+      tap((response: JwtResponse) => {
+        if (response && response.accessToken) {
           localStorage.setItem('access_token', response.accessToken);
-          localStorage.setItem('token_type', response.tokenType);
+          localStorage.setItem('token_type', response.tokenType || 'Bearer');
           this._isLoggedIn.next(true);
-        }),
-        catchError((error) => {
+        } else {
           this._isLoggedIn.next(false);
-          throw error;
-        })
-      );
+        }
+      }),
+      switchMap(() => this.isLoggedIn$),
+      filter((isLoggedIn) => isLoggedIn === true),
+      catchError((error) => {
+        this._isLoggedIn.next(false);
+        return of(false);
+      })
+    );
   }
 
   logout(): void {
@@ -72,7 +96,6 @@ export class AuthService {
         const payload = JSON.parse(atob(payloadBase64));
         return payload.roles && payload.roles.includes('ADMIN');
       } catch (e) {
-        console.error('Erro ao decodificar token JWT:', e);
         return false;
       }
     }

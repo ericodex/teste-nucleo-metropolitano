@@ -4,7 +4,7 @@ O stack da aplicação é composto por orquestração com Docker do banco de dad
 
 ## Orientação para implementação
 
-Observação: Para implementação em produção altere as senhas e credenciais e jwt.secret dos arquivos de configuração.
+Observação: Para implementação em produção ou homologação altere as senhas e credenciais e jwt.secret dos arquivos de configuração. Também é necessário alterar o arquivo `application.properties` do backend para apontar para o banco de dados em produção. E ajustar a configuração do CORS no `src\main\java\com\gestaoprodutos\config\SecurityConfig.java` para permitir o acesso do frontend.
 
 ### Pre-requisitos
 

@@ -1,0 +1,91 @@
+<div class="product-form-container">
+  <div class="form-card">
+    <h2 class="form-title">{{ isEditMode ? 'Editar Produto' : 'Cadastrar Novo Produto' }}</h2>
+
+    <form (ngSubmit)="onSubmit()" #productForm="ngForm">
+      <div class="input-group">
+        <label for="nome" class="input-label">Nome:</label>
+        <input type="text" id="nome" name="nome" [(ngModel)]="product.nome" required minlength="3" maxlength="100"
+          class="input-field" placeholder="Nome do produto" />
+        <div
+          *ngIf="productForm.controls['nome']?.invalid && (productForm.controls['nome']?.dirty || productForm.controls['nome']?.touched)"
+          class="validation-error">
+          <span *ngIf="productForm.controls['nome']?.errors?.['required']">Nome é obrigatório.</span>
+          <span *ngIf="productForm.controls['nome']?.errors?.['minlength']">Nome deve ter no mínimo 3 caracteres.</span>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="descricao" class="input-label">Descrição:</label>
+        <textarea id="descricao" name="descricao" [(ngModel)]="product.descricao" rows="3" class="input-field"
+          placeholder="Descrição detalhada do produto"></textarea>
+      </div>
+
+      <div class="input-group">
+        <label for="valor" class="input-label">Valor:</label>
+        <input type="number" id="valor" name="valor" [(ngModel)]="product.valor" required min="0.01" step="0.01"
+          class="input-field" placeholder="Ex: 25.99" />
+        <div
+          *ngIf="productForm.controls['valor']?.invalid && (productForm.controls['valor']?.dirty || productForm.controls['valor']?.touched)"
+          class="validation-error">
+          <span *ngIf="productForm.controls['valor']?.errors?.['required']">Valor é obrigatório.</span>
+          <span *ngIf="productForm.controls['valor']?.errors?.['min']">Valor deve ser maior que zero.</span>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="estoque" class="input-label">Estoque:</label>
+        <input type="number" id="estoque" name="estoque" [(ngModel)]="product.estoque" required min="0"
+          class="input-field" placeholder="Ex: 100" />
+        <div
+          *ngIf="productForm.controls['estoque']?.invalid && (productForm.controls['estoque']?.dirty || productForm.controls['estoque']?.touched)"
+          class="validation-error">
+          <span *ngIf="productForm.controls['estoque']?.errors?.['required']">Estoque é obrigatório.</span>
+          <span *ngIf="productForm.controls['estoque']?.errors?.['min']">Estoque não pode ser negativo.</span>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="sku" class="input-label">SKU:</label>
+        <input type="text" id="sku" name="sku" [(ngModel)]="product.sku" required minlength="1" maxlength="50"
+          class="input-field" placeholder="Código único do produto (SKU)" />
+        <div
+          *ngIf="productForm.controls['sku']?.invalid && (productForm.controls['sku']?.dirty || productForm.controls['sku']?.touched)"
+          class="validation-error">
+          <span *ngIf="productForm.controls['sku']?.errors?.['required']">SKU é obrigatório.</span>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="cidadeId" class="input-label">Cidade:</label>
+        <select id="cidadeId" name="cidadeId" [(ngModel)]="product.cidadeId" required class="input-field select-field">
+          <option [ngValue]="0" disabled>Selecione uma cidade</option>
+          <option *ngFor="let city of cities" [ngValue]="city.id">{{ city.nome }} - {{ city.estado }}</option>
+        </select>
+        <div
+          *ngIf="productForm.controls['cidadeId']?.invalid && (productForm.controls['cidadeId']?.dirty || productForm.controls['cidadeId']?.touched)"
+          class="validation-error">
+          <span *ngIf="productForm.controls['cidadeId']?.errors?.['required']">Cidade é obrigatória.</span>
+        </div>
+        <div *ngIf="cities.length === 0 && !isLoading" class="info-message">
+          Carregando cidades...
+        </div>
+      </div>
+
+      <div *ngIf="formMessage" class="form-feedback" [ngClass]="{'success': !isError, 'error': isError}">
+        {{ formMessage }}
+      </div>
+
+      <div class="button-group">
+        <button type="submit" [disabled]="!productForm.valid || isLoading" class="btn-primary"
+          [ngClass]="{'opacity-50 cursor-not-allowed': !productForm.valid || isLoading}">
+          <span *ngIf="!isLoading">{{ isEditMode ? 'Atualizar Produto' : 'Cadastrar Produto' }}</span>
+          <span *ngIf="isLoading">Salvando...</span>
+        </button>
+        <button type="button" class="btn-secondary" (click)="goBackToList()">
+          Voltar para a Lista
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

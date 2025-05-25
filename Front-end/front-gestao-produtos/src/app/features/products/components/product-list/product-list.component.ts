@@ -1,19 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common'; // Para diretivas como *ngIf, *ngFor, e pipes como currency
-import { Router, RouterLink } from '@angular/router'; // Para navegação
-import { AuthService } from '../../../../core/services/auth.service'; // Importa o AuthService
-import { ProductService } from '../services/product.service'; // Importe o ProductService
-import { Product, ProductPage } from '../../models/product.model'; // Importe os modelos de produto
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { AuthService } from '../../../../core/services/auth.service';
+
+import { ProdutosService } from '../../../../core/api/services/produtos.service';
+import {
+  ComGestaoprodutosDtoProdutoDto as Produto, // Use o alias para o DTO de produto único
+  OrgSpringframeworkDataDomainPageComGestaoprodutosDtoProdutoDto as ProductPage, // Use o alias para o DTO de página
+} from '../../../../core/api/models';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [CommonModule, RouterLink], // CommonModule e RouterLink são essenciais
+  imports: [CommonModule],
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.scss'],
 })
 export class ProductListComponent implements OnInit {
-  products: Product[] = []; // Usando o modelo Product[]
+  products: Produto[] = []; // Usando o modelo ProdutoDTO gerado
   isUserAdmin: boolean = false;
   isLoading: boolean = false;
   errorMessage: string | null = null;
@@ -22,35 +26,40 @@ export class ProductListComponent implements OnInit {
   pageSize: number = 10;
   totalElements: number = 0;
   totalPages: number = 0;
-  currentSort: string = 'nome,asc'; // Parâmetro de ordenação padrão
+  currentSort: string = 'nome,asc';
 
   constructor(
     private authService: AuthService,
     private router: Router,
-    private productService: ProductService // Injetando o ProductService
+    private produtosService: ProdutosService // Injete o serviço de produtos gerado
   ) {}
 
   ngOnInit(): void {
-    // Verifica a role do usuário ao iniciar o componente
     this.isUserAdmin = this.authService.isAdmin();
-    this.loadProducts(); // Carrega os produtos ao iniciar
+    this.loadProducts();
   }
 
   /**
-   * Carrega a lista de produtos da API (com paginação e ordenação).
+   * Carrega a lista de produtos da API usando o serviço gerado.
    */
   loadProducts(): void {
     this.isLoading = true;
     this.errorMessage = null;
 
-    this.productService
-      .getProducts(this.currentPage, this.pageSize, this.currentSort)
+    // O método gerado para listar produtos deve ser algo como 'listarTodos'
+    this.produtosService
+      .listarTodos({
+        page: this.currentPage,
+        size: this.pageSize,
+        sort: this.currentSort,
+      })
       .subscribe({
         next: (data: ProductPage) => {
-          this.products = data.content;
-          this.totalElements = data.totalElements;
-          this.totalPages = data.totalPages;
-          this.currentPage = data.number; // Garante que a página atual seja a retornada pela API
+          // Usando o modelo de página gerado
+          this.products = data.content || []; // Garante que content não seja undefined
+          this.totalElements = data.totalElements || 0;
+          this.totalPages = data.totalPages || 0;
+          this.currentPage = data.number || 0;
           this.isLoading = false;
         },
         error: (error) => {
@@ -58,39 +67,29 @@ export class ProductListComponent implements OnInit {
           this.errorMessage =
             'Não foi possível carregar os produtos. Verifique sua conexão ou tente novamente.';
           this.isLoading = false;
-          // Você pode adicionar mais lógica de tratamento de erro aqui,
-          // como redirecionar para o login se for um erro de autenticação (401)
           if (error.status === 401 || error.status === 403) {
             this.errorMessage =
               'Sessão expirada ou não autorizado. Por favor, faça login novamente.';
-            this.authService.logout(); // Redireciona para o login
+            this.authService.logout();
           }
         },
       });
   }
 
-  /**
-   * Navega para a tela de cadastro de novo produto (apenas para ADMIN).
-   */
   goToAddProduct(): void {
     if (this.isUserAdmin) {
-      this.router.navigate(['/dashboard/products/new']); // Rota para cadastrar
+      this.router.navigate(['/dashboard/products/new']);
     }
   }
 
-  /**
-   * Navega para a tela de edição de produto (apenas para ADMIN).
-   * @param productId ID do produto a ser editado.
-   */
   goToEditProduct(productId: number | undefined): void {
     if (this.isUserAdmin && productId) {
-      // Garante que productId não é undefined
-      this.router.navigate(['/dashboard/products/edit', productId]); // Rota para editar
+      this.router.navigate(['/dashboard/products/edit', productId]);
     }
   }
 
   /**
-   * Lida com a exclusão de um produto (apenas para ADMIN).
+   * Lida com a exclusão de um produto usando o serviço gerado.
    * @param productId ID do produto a ser excluído.
    */
   deleteProduct(productId: number | undefined): void {
@@ -99,15 +98,13 @@ export class ProductListComponent implements OnInit {
       return;
     }
 
-    // Usando um modal de confirmação customizado em vez de alert/confirm
-    // Para este exemplo, vamos simular um modal simples no console.
     if (confirm('Tem certeza que deseja excluir este produto?')) {
-      // Substitua por um modal real
       this.isLoading = true;
-      this.productService.deleteProduct(productId).subscribe({
+      // O método gerado para excluir produto deve ser algo como 'excluirProduto'
+      this.produtosService.excluirProduto({ id: productId }).subscribe({
         next: () => {
           console.log('Produto excluído com sucesso:', productId);
-          this.loadProducts(); // Recarrega a lista após a exclusão
+          this.loadProducts();
         },
         error: (error) => {
           console.error('Erro ao excluir produto:', error);
@@ -122,10 +119,6 @@ export class ProductListComponent implements OnInit {
     }
   }
 
-  /**
-   * Lida com a mudança de página da paginação.
-   * @param page O número da nova página.
-   */
   onPageChange(page: number): void {
     if (page >= 0 && page < this.totalPages) {
       this.currentPage = page;
@@ -133,10 +126,6 @@ export class ProductListComponent implements OnInit {
     }
   }
 
-  /**
-   * Lida com a mudança no critério de ordenação.
-   * @param sortString A string de ordenação (ex: 'nome,asc').
-   */
   onSortChange(sortString: string): void {
     this.currentSort = sortString;
     this.loadProducts();

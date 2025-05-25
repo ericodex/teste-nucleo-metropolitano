@@ -1,3 +1,5 @@
+// src/app/auth/components/login/login.component.ts
+
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -27,10 +29,17 @@ export class LoginComponent {
     this.loginError = null;
 
     this.authService.login(this.credentials).subscribe({
-      next: (response) => {
-        console.log('Login bem-sucedido:', response);
-        this.isLoading = false;
-        this.router.navigate(['/dashboard']);
+      next: (loggedInSuccessfully) => {
+        if (loggedInSuccessfully) {
+          console.log('Login bem-sucedido. Redirecionando...');
+          this.isLoading = false;
+          this.router.navigate(['/dashboard']);
+        } else {
+          console.error('Login falhou, mas sem erro explícito do backend.');
+          this.isLoading = false;
+          this.loginError =
+            'Credenciais inválidas. Verifique seu email e senha.';
+        }
       },
       error: (error) => {
         console.error('Erro no login:', error);

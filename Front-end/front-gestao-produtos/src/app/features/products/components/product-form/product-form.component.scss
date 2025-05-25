@@ -1,0 +1,180 @@
+/* Estilo para o Formulário de Produto (Cadastro/Edição) */
+
+.product-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  /* Alinha ao topo para formulários mais longos */
+  min-height: calc(100vh - 4rem);
+  /* Ajusta para considerar o cabeçalho do dashboard */
+  background-color: #f8f9fa;
+  /* Fundo suave */
+  font-family: 'Inter', sans-serif;
+  padding: 2rem;
+  box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
+}
+
+.form-card {
+  background-color: #ffffff;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 600px;
+  /* Largura um pouco maior para formulários */
+  border: 1px solid #e0e0e0;
+  box-sizing: border-box;
+
+  @media (max-width: 600px) {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+}
+
+.form-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #343a40;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.input-group {
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.input-label {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #555555;
+  margin-bottom: 0.6rem;
+}
+
+.input-field {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid #cccccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #333333;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
+
+  &:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+  }
+}
+
+textarea.input-field {
+  resize: vertical;
+  /* Permite redimensionar verticalmente */
+  min-height: 80px;
+}
+
+.select-field {
+  appearance: none;
+  /* Remove o estilo padrão do navegador */
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23000000%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13.2-6.2H18.2c-4.1%200-7.9%201.8-10.5%204.7-2.6%202.9-3.6%206.7-2.6%2010.8l128%20128c1.8%201.8%204.2%202.8%206.6%202.8s4.8-1%206.6-2.8l128-128c1.8-1.8%202.8-4.2%202.8-6.6-.1-2.5-1.1-4.9-2.9-6.7z%22%2F%3E%3C%2Fsvg%3E');
+  /* Seta customizada */
+  background-repeat: no-repeat;
+  background-position: right 0.7em top 50%, 0 0;
+  background-size: 0.65em auto, 100%;
+  padding-right: 2.5em;
+  /* Espaço para a seta customizada */
+}
+
+
+.validation-error {
+  color: #dc3545;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+  text-align: left;
+}
+
+.form-feedback {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-align: center;
+
+  &.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+
+  &.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+  }
+}
+
+.button-group {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+  /* Permite que os botões quebrem a linha em telas pequenas */
+  justify-content: center;
+  /* Centraliza botões em telas pequenas */
+
+  .btn-primary,
+  .btn-secondary {
+    flex: 1;
+    /* Faz os botões ocuparem espaço igual */
+    min-width: 150px;
+    /* Largura mínima para botões em telas pequenas */
+    padding: 0.85rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    color: #ffffff;
+
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+
+  .btn-secondary {
+    background-color: #6c757d;
+    color: #ffffff;
+
+    &:hover {
+      background-color: #5a6268;
+    }
+  }
+}
+
+.info-message {
+  font-size: 0.85rem;
+  color: #007bff;
+  margin-top: 0.5rem;
+}

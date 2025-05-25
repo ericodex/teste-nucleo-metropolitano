@@ -16,7 +16,7 @@ import { ApiConfigurationParams } from './core/api/api-configuration';
 import { JwtInterceptor } from './core/services/jwt-interceptor.service'; // Importe seu JwtInterceptor
 
 const apiConfigParams: ApiConfigurationParams = {
-  rootUrl: 'http://localhost:13434', // Substitua pela URL base da sua API
+  rootUrl: 'http://localhost:13434/api',
 };
 
 export const appConfig: ApplicationConfig = {
