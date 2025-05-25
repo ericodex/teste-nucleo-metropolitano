@@ -6,29 +6,35 @@ import { HttpClient, HttpContext, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
-import { RequestBuilder } from '../../request-builder';
 
 import { ProdutoDto as OrgSpringframeworkDataDomainPageComGestaoprodutosDtoProdutoDto } from '../../models/org/springframework/data/domain/PageCom/gestaoprodutos/dto/produto-dto';
+import { RequestBuilder } from '../../request-builder'; // Mantenha este import
 
 export interface ListarTodos$Params {
-
-/**
- * Número da página a ser retornada (inicia em 0).
- */
+  /**
+   * Número da página a ser retornada (inicia em 0).
+   */
   page?: number;
 
-/**
- * Número de itens por página.
- */
+  /**
+   * Número de itens por página.
+   */
   size?: number;
 
-/**
- * Critério de ordenação no formato 'campo,direção' (ex: nome,asc ou valor,desc).
- */
+  /**
+   * Critério de ordenação no formato 'campo,direção' (ex: nome,asc ou valor,desc).
+   */
   sort?: string;
 }
 
-export function listarTodos(http: HttpClient, rootUrl: string, params?: ListarTodos$Params, context?: HttpContext): Observable<StrictHttpResponse<OrgSpringframeworkDataDomainPageComGestaoprodutosDtoProdutoDto>> {
+export function listarTodos(
+  http: HttpClient,
+  rootUrl: string,
+  params?: ListarTodos$Params,
+  context?: HttpContext
+): Observable<
+  StrictHttpResponse<OrgSpringframeworkDataDomainPageComGestaoprodutosDtoProdutoDto>
+> {
   const rb = new RequestBuilder(rootUrl, listarTodos.PATH, 'get');
   if (params) {
     rb.query('page', params.page, {});
@@ -36,14 +42,16 @@ export function listarTodos(http: HttpClient, rootUrl: string, params?: ListarTo
     rb.query('sort', params.sort, {});
   }
 
-  return http.request(
-    rb.build({ responseType: 'blob', accept: '*/*', context })
-  ).pipe(
-    filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
-    map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<OrgSpringframeworkDataDomainPageComGestaoprodutosDtoProdutoDto>;
-    })
-  );
+  return http
+    .request(
+      rb.build({ responseType: 'json', accept: 'application/json', context }) // <--- ALTERADO AQUI
+    )
+    .pipe(
+      filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<OrgSpringframeworkDataDomainPageComGestaoprodutosDtoProdutoDto>;
+      })
+    );
 }
 
 listarTodos.PATH = '/v1/produtos';
