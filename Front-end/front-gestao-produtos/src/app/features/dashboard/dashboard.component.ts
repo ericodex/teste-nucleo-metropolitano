@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core'; // Importe OnDestroy
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
-import { Subscription } from 'rxjs'; // Importe Subscription
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,26 +12,30 @@ import { Subscription } from 'rxjs'; // Importe Subscription
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-  // Implemente OnDestroy
   isUserAdmin: boolean = false;
-  private adminSubscription: Subscription | undefined; // Para gerenciar a inscrição
+  isSidebarOpen: boolean = false;
+  private adminSubscription: Subscription | undefined;
 
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    // Inscreve-se no Observable isAdmin$ para reagir a mudanças
     this.adminSubscription = this.authService.isAdmin$.subscribe((isAdmin) => {
       this.isUserAdmin = isAdmin;
-      // Opcional: log para depuração
-      console.log('DashboardComponent: isUserAdmin atualizado para:', this.isUserAdmin);
     });
   }
 
   ngOnDestroy(): void {
-    // Desinscreve-se para evitar vazamento de memória quando o componente for destruído
     if (this.adminSubscription) {
       this.adminSubscription.unsubscribe();
     }
+  }
+
+  toggleSidebar(): void {
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
+
+  closeSidebar(): void {
+    this.isSidebarOpen = false;
   }
 
   goToProducts(): void {

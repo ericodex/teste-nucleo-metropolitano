@@ -20,14 +20,14 @@ export function buscarPorId(http: HttpClient, rootUrl: string, params: BuscarPor
     rb.path('id', params.id, {});
   }
 
-  return http.request(
-    rb.build({ responseType: 'blob', accept: '*/*', context })
-  ).pipe(
-    filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
-    map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<ComGestaoprodutosDtoProdutoDto>;
-    })
-  );
+  return http
+    .request(rb.build({ responseType: 'json', accept: '*/*', context }))
+    .pipe(
+      filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<ComGestaoprodutosDtoProdutoDto>;
+      })
+    );
 }
 
 buscarPorId.PATH = '/v1/produtos/{id}';

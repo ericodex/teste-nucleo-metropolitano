@@ -31,7 +31,6 @@ export class LoginComponent {
     this.authService.login(this.credentials).subscribe({
       next: (loggedInSuccessfully) => {
         if (loggedInSuccessfully) {
-          console.log('Login bem-sucedido. Redirecionando...');
           this.isLoading = false;
           this.router.navigate(['/dashboard']);
         } else {

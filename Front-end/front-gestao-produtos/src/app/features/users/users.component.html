@@ -1,1 +1,40 @@
-<p>users works!</p>
+<div class="users-list-container">
+  <div class="header-section">
+    <h2 class="section-title">Lista de Usuários</h2>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-message">
+    Carregando usuários...
+  </div>
+
+  <div *ngIf="errorMessage" class="error-alert">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="!isLoading && users.length === 0 && !errorMessage" class="no-users-message">
+    Nenhum usuário encontrado.
+  </div>
+
+  <div class="table-responsive" *ngIf="!isLoading && users.length > 0">
+    <table class="users-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>CPF</th>
+          <th>Role</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td>{{ user.id }}</td>
+          <td>{{ user.nome }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.cpf }}</td>
+          <td>{{ user.role }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

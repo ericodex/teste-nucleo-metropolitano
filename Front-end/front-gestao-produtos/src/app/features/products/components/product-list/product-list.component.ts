@@ -1,23 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../../core/services/auth.service';
 
 import { ProdutosService } from '../../../../core/api/services/produtos.service';
 import {
-  ComGestaoprodutosDtoProdutoDto as Produto, // Use o alias para o DTO de produto único
-  OrgSpringframeworkDataDomainPageComGestaoprodutosDtoProdutoDto as ProductPage, // Use o alias para o DTO de página
+  ComGestaoprodutosDtoProdutoDto as Produto,
+  OrgSpringframeworkDataDomainPageComGestaoprodutosDtoProdutoDto as ProductPage,
 } from '../../../../core/api/models';
+
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.scss'],
 })
-export class ProductListComponent implements OnInit {
-  products: Produto[] = []; // Usando o modelo ProdutoDTO gerado
+export class ProductListComponent implements OnInit, OnDestroy {
+  products: Produto[] = [];
   isUserAdmin: boolean = false;
   isLoading: boolean = false;
   errorMessage: string | null = null;
@@ -28,25 +31,31 @@ export class ProductListComponent implements OnInit {
   totalPages: number = 0;
   currentSort: string = 'nome,asc';
 
+  private adminSubscription: Subscription | undefined;
+
   constructor(
     private authService: AuthService,
     private router: Router,
-    private produtosService: ProdutosService // Injete o serviço de produtos gerado
+    private produtosService: ProdutosService
   ) {}
 
   ngOnInit(): void {
-    this.isUserAdmin = this.authService.isAdmin();
+    this.adminSubscription = this.authService.isAdmin$.subscribe((isAdmin) => {
+      this.isUserAdmin = isAdmin;
+    });
     this.loadProducts();
   }
 
-  /**
-   * Carrega a lista de produtos da API usando o serviço gerado.
-   */
+  ngOnDestroy(): void {
+    if (this.adminSubscription) {
+      this.adminSubscription.unsubscribe();
+    }
+  }
+
   loadProducts(): void {
     this.isLoading = true;
     this.errorMessage = null;
 
-    // O método gerado para listar produtos deve ser algo como 'listarTodos'
     this.produtosService
       .listarTodos({
         page: this.currentPage,
@@ -55,15 +64,14 @@ export class ProductListComponent implements OnInit {
       })
       .subscribe({
         next: (data: ProductPage) => {
-          // Usando o modelo de página gerado
-          this.products = data.content || []; // Garante que content não seja undefined
+          // O tipo recebido é diretamente ProductPage
+          this.products = data.content || [];
           this.totalElements = data.totalElements || 0;
           this.totalPages = data.totalPages || 0;
           this.currentPage = data.number || 0;
           this.isLoading = false;
         },
         error: (error) => {
-          console.error('Erro ao carregar produtos:', error);
           this.errorMessage =
             'Não foi possível carregar os produtos. Verifique sua conexão ou tente novamente.';
           this.isLoading = false;
@@ -88,26 +96,18 @@ export class ProductListComponent implements OnInit {
     }
   }
 
-  /**
-   * Lida com a exclusão de um produto usando o serviço gerado.
-   * @param productId ID do produto a ser excluído.
-   */
   deleteProduct(productId: number | undefined): void {
     if (!productId) {
-      console.error('ID do produto é indefinido para exclusão.');
       return;
     }
 
     if (confirm('Tem certeza que deseja excluir este produto?')) {
       this.isLoading = true;
-      // O método gerado para excluir produto deve ser algo como 'excluirProduto'
       this.produtosService.excluirProduto({ id: productId }).subscribe({
         next: () => {
-          console.log('Produto excluído com sucesso:', productId);
           this.loadProducts();
         },
         error: (error) => {
-          console.error('Erro ao excluir produto:', error);
           this.errorMessage = 'Não foi possível excluir o produto.';
           this.isLoading = false;
           if (error.status === 401 || error.status === 403) {

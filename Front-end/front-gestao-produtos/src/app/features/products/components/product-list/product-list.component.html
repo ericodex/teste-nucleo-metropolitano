@@ -1,9 +1,19 @@
 <div class="product-list-container">
   <div class="header-section">
     <h2 class="section-title">Lista de Produtos</h2>
-    <button *ngIf="isUserAdmin" class="btn-add-product" (click)="goToAddProduct()">
-      <i class="fa-solid fa-plus"></i> Cadastrar Produto
-    </button>
+    <div class="header-actions">
+      <select class="sort-select" [(ngModel)]="currentSort" (change)="onSortChange(currentSort)">
+        <option value="nome,asc">Nome (A-Z)</option>
+        <option value="nome,desc">Nome (Z-A)</option>
+        <option value="valor,asc">Valor (Menor para Maior)</option>
+        <option value="valor,desc">Valor (Maior para Menor)</option>
+        <option value="estoque,asc">Estoque (Menor para Maior)</option>
+        <option value="estoque,desc">Estoque (Maior para Menor)</option>
+      </select>
+      <button *ngIf="isUserAdmin" class="btn-add-product" (click)="goToAddProduct()">
+        <i class="fa-solid fa-plus"></i> Cadastrar Produto
+      </button>
+    </div>
   </div>
 
   <div *ngIf="isLoading" class="loading-message">

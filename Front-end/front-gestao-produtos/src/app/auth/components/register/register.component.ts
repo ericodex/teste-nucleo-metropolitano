@@ -32,7 +32,6 @@ export class RegisterComponent {
 
     this.authService.register(this.user).subscribe({
       next: (response) => {
-        console.log('Registro bem-sucedido:', response);
         this.registrationSuccess = true;
         this.isLoading = false;
         setTimeout(() => {

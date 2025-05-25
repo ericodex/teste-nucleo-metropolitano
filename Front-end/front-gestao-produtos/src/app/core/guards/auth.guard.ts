@@ -20,12 +20,6 @@ export class AuthGuard implements CanActivate {
   ): Observable<boolean> {
     return this.authService.isLoggedIn$.pipe(
       map((isLoggedIn) => {
-        console.log(
-          'AuthGuard - Estado de Login:',
-          isLoggedIn,
-          ' para rota:',
-          state.url
-        );
         if (isLoggedIn) {
           return true;
         } else {

@@ -25,9 +25,47 @@
   margin: 0;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+}
+
+.sort-select {
+  padding: 0.75rem 1rem;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  background-color: #ffffff;
+  font-size: 1rem;
+  color: #495057;
+  cursor: pointer;
+  appearance: none;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%204%205%22%3E%3Cpath%20fill%3D%22%23343a40%22%20d%3D%22M2%200L0%202h4L2%200zM2%205L0%203h4L2%205z%22%2F%3E%3C%2Fsvg%3E');
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 0.8em;
+  min-width: 180px;
+
+  &:focus {
+    outline: none;
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+
+  @media (max-width: 600px) {
+    width: 100%;
+    min-width: unset;
+  }
+}
+
 .btn-add-product {
   background-color: #28a745;
-  /* Verde para adicionar */
   color: #ffffff;
   padding: 0.75rem 1.25rem;
   border: none;
@@ -43,6 +81,11 @@
   &:hover {
     background-color: #218838;
     transform: translateY(-2px);
+  }
+
+  @media (max-width: 600px) {
+    width: 100%;
+    justify-content: center;
   }
 }
 
@@ -75,7 +118,6 @@
 
 .table-responsive {
   overflow-x: auto;
-  /* Permite rolagem horizontal em telas pequenas */
   margin-top: 1.5rem;
 }
 
@@ -86,19 +128,17 @@
   background-color: #ffffff;
   border-radius: 8px;
   overflow: hidden;
-  /* Garante que as bordas arredondadas funcionem com o overflow */
 
   th,
   td {
     padding: 1rem;
     text-align: left;
     border-bottom: 1px solid #dee2e6;
-    /* Linha divisória suave */
+    vertical-align: middle;
   }
 
   th {
     background-color: #e9ecef;
-    /* Fundo para o cabeçalho da tabela */
     font-weight: 600;
     color: #495057;
     text-transform: uppercase;
@@ -110,23 +150,39 @@
 
     &:hover {
       background-color: #f2f2f2;
-      /* Efeito hover nas linhas */
     }
   }
 
   .actions-column {
     white-space: nowrap;
-    /* Evita que os botões quebrem a linha */
     display: flex;
     gap: 0.5rem;
-    /* Espaço entre os botões de ação */
+    align-items: center;
     justify-content: flex-start;
-    /* Alinha os botões à esquerda */
+    height: 100%;
+    /* NOVO: Garante que o contêiner flexível ocupe 100% da altura da célula */
 
     @media (max-width: 768px) {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.3rem;
+
+      .btn-action {
+        flex-grow: 1;
+        text-align: center;
+        padding: 0.4rem 0.6rem;
+        font-size: 0.8rem;
+      }
+    }
+
+    @media (max-width: 480px) {
       flex-direction: column;
-      /* Empilha os botões em telas menores */
-      gap: 0.25rem;
+      gap: 0.5rem;
+
+      .btn-action {
+        width: 100%;
+      }
     }
   }
 }

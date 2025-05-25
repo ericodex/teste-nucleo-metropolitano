@@ -44,7 +44,7 @@ export function listarTodos(
 
   return http
     .request(
-      rb.build({ responseType: 'json', accept: 'application/json', context }) // <--- ALTERADO AQUI
+      rb.build({ responseType: 'json', accept: 'application/json', context })
     )
     .pipe(
       filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),

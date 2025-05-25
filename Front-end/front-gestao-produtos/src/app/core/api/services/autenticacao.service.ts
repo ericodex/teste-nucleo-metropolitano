@@ -20,7 +20,6 @@ import { Login$Params } from '../fn/autenticacao/login';
 import { register } from '../fn/autenticacao/register';
 import { Register$Params } from '../fn/autenticacao/register';
 
-
 /**
  * Endpoints para autenticação e registro de usuários
  */
@@ -43,7 +42,10 @@ export class AutenticacaoService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  register$Response(params: Register$Params, context?: HttpContext): Observable<StrictHttpResponse<number>> {
+  register$Response(
+    params: Register$Params,
+    context?: HttpContext
+  ): Observable<StrictHttpResponse<number>> {
     return register(this.http, this.rootUrl, params, context);
   }
 
@@ -76,7 +78,10 @@ export class AutenticacaoService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  login$Response(params: Login$Params, context?: HttpContext): Observable<StrictHttpResponse<ComGestaoprodutosDtoResponseJwtResponse>> {
+  login$Response(
+    params: Login$Params,
+    context?: HttpContext
+  ): Observable<StrictHttpResponse<ComGestaoprodutosDtoResponseJwtResponse>> {
     return login(this.http, this.rootUrl, params, context);
   }
 
@@ -90,9 +95,16 @@ export class AutenticacaoService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  login(params: Login$Params, context?: HttpContext): Observable<ComGestaoprodutosDtoResponseJwtResponse> {
+  login(
+    params: Login$Params,
+    context?: HttpContext
+  ): Observable<ComGestaoprodutosDtoResponseJwtResponse> {
     return this.login$Response(params, context).pipe(
-      map((r: StrictHttpResponse<ComGestaoprodutosDtoResponseJwtResponse>): ComGestaoprodutosDtoResponseJwtResponse => r.body)
+      map(
+        (
+          r: StrictHttpResponse<ComGestaoprodutosDtoResponseJwtResponse>
+        ): ComGestaoprodutosDtoResponseJwtResponse => r.body
+      )
     );
   }
 
@@ -109,7 +121,13 @@ export class AutenticacaoService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  listAllUsers$Response(params?: ListAllUsers$Params, context?: HttpContext): Observable<StrictHttpResponse<ComGestaoprodutosModelEntityUsuario>> {
+  listAllUsers$Response(
+    params?: ListAllUsers$Params,
+    context?: HttpContext
+  ): Observable<
+    StrictHttpResponse<Array<ComGestaoprodutosModelEntityUsuario>>
+  > {
+    // <--- ALTERADO AQUI
     return listAllUsers(this.http, this.rootUrl, params, context);
   }
 
@@ -123,10 +141,17 @@ export class AutenticacaoService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  listAllUsers(params?: ListAllUsers$Params, context?: HttpContext): Observable<ComGestaoprodutosModelEntityUsuario> {
+  listAllUsers(
+    params?: ListAllUsers$Params,
+    context?: HttpContext
+  ): Observable<Array<ComGestaoprodutosModelEntityUsuario>> {
+    // <--- ALTERADO AQUI
     return this.listAllUsers$Response(params, context).pipe(
-      map((r: StrictHttpResponse<ComGestaoprodutosModelEntityUsuario>): ComGestaoprodutosModelEntityUsuario => r.body)
+      map(
+        (
+          r: StrictHttpResponse<Array<ComGestaoprodutosModelEntityUsuario>>
+        ): Array<ComGestaoprodutosModelEntityUsuario> => r.body
+      ) // <--- ALTERADO AQUI
     );
   }
-
 }

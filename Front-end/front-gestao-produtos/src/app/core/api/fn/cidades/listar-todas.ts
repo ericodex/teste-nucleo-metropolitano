@@ -18,14 +18,14 @@ export function listarTodas(http: HttpClient, rootUrl: string, params?: ListarTo
   if (params) {
   }
 
-  return http.request(
-    rb.build({ responseType: 'blob', accept: '*/*', context })
-  ).pipe(
-    filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
-    map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<CidadeDto>>;
-    })
-  );
+  return http
+    .request(rb.build({ responseType: 'json', accept: '*/*', context }))
+    .pipe(
+      filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<Array<CidadeDto>>;
+      })
+    );
 }
 
 listarTodas.PATH = '/v1/cidades';
