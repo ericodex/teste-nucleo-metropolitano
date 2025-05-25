@@ -23,7 +23,7 @@ Observação: Para implementação em produção ou homologação altere as senh
 git clone https://github.com/ericodex/teste-nucleo-metropolitano.git
 ```
 
-### 2. Acesse o diretório '\MySql' crie a imagem docker do banco de dados com o comando
+### 2. Acesse o diretório `\MySql` crie a imagem docker do banco de dados com o comando
 
 ```bash
 docker build -t my-mysql .
@@ -35,7 +35,7 @@ docker-compose up -d
 
 Acesse o MySQL Workbench ou similar com as configurações do Dockerfile e crie as tabelas com o script `create_tables.sql`.
 
-### 3. Acesse o diretório '\backend\gestaoProdutosNucleMetropolitano' e crie a imagem docker do backend com o comando
+### 3. Acesse o diretório `\backend\gestaoProdutosNucleMetropolitano` e crie a imagem docker do backend com o comando
 
 ```bash
 mvn clean install
@@ -57,7 +57,7 @@ mvn test
 
 Acesse o Swagger da aplicação em `http://localhost:13434/api/swagger-ui/index.html` para visualizar a documentação das APIs disponíveis.
 
-### 4. Acesse o diretório '\frontend\front-gestao-produtos' e execute o comando para rodar a aplicação Angular
+### 4. Acesse o diretório `\frontend\front-gestao-produtos` e execute o comando para rodar a aplicação Angular
 
 ```bash
 ng install
