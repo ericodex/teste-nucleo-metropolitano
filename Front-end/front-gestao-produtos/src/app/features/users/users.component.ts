@@ -5,8 +5,6 @@ import { AuthService } from '../../core/services/auth.service';
 
 import { AutenticacaoService } from '../../core/api/services/autenticacao.service';
 import { ComGestaoprodutosModelEntityUsuario as Usuario } from '../../core/api/models';
-// Não é mais necessário importar StrictHttpResponse aqui se o serviço já desempacota
-// import { StrictHttpResponse } from '../../../core/api/strict-http-response';
 
 @Component({
   selector: 'app-users',
@@ -36,7 +34,6 @@ export class UsersComponent implements OnInit {
 
     this.autenticacaoService.listAllUsers().subscribe({
       next: (data: Usuario[]) => {
-        // O tipo recebido agora é diretamente Usuario[]
         this.users = data || [];
         this.isLoading = false;
       },

@@ -8,10 +8,7 @@ import { ComGestaoprodutosModelEntityUsuario as Usuario } from '../../core/api/m
 import { HttpErrorResponse } from '@angular/common/http';
 
 class MockAuthService {
-  // O mock de logout precisa chamar o navigate do router mockado
-  // para que o teste de redirecionamento funcione.
   logout = jasmine.createSpy('logout').and.callFake(() => {
-    // Simula o comportamento real do logout, que navega para a tela de login
     TestBed.inject(Router).navigate(['/auth/login']);
   });
 }
@@ -106,7 +103,7 @@ describe('UsersComponent', () => {
   });
 
   it('deve exibir mensagem de carregamento durante o carregamento', () => {
-    fixture.detectChanges(); // Aciona ngOnInit, que chama loadUsers, definindo isLoading como true
+    fixture.detectChanges();
 
     expect(component.isLoading).toBeTrue();
     let loadingMessage =
@@ -116,11 +113,10 @@ describe('UsersComponent', () => {
 
     mockAutenticacaoService.listAllUsersSubject.next([]);
     mockAutenticacaoService.listAllUsersSubject.complete();
-    fixture.detectChanges(); // Força a detecção de mudanças para que o isLoading se torne false
+    fixture.detectChanges();
 
-    // AQUI ESTÁ A CORREÇÃO: Re-consultar o DOM para verificar se o elemento sumiu
     loadingMessage = fixture.nativeElement.querySelector('.loading-message');
-    expect(loadingMessage).toBeFalsy(); // Agora verifica se o elemento não está mais no DOM
+    expect(loadingMessage).toBeFalsy();
   });
 
   it('deve lidar com erro ao carregar usuários e exibir mensagem de erro', () => {
@@ -160,7 +156,6 @@ describe('UsersComponent', () => {
 
     fixture.detectChanges();
 
-    // Com o mockAuthService.logout chamando o mockRouter.navigate, esta asserção funcionará.
     expect(mockAuthService.logout).toHaveBeenCalled();
     expect(mockRouter.navigate).toHaveBeenCalledWith(['/auth/login']);
     expect(component.errorMessage).toContain(
@@ -179,7 +174,6 @@ describe('UsersComponent', () => {
 
     fixture.detectChanges();
 
-    // Com o mockAuthService.logout chamando o mockRouter.navigate, esta asserção funcionará.
     expect(mockAuthService.logout).toHaveBeenCalled();
     expect(mockRouter.navigate).toHaveBeenCalledWith(['/auth/login']);
     expect(component.errorMessage).toContain(

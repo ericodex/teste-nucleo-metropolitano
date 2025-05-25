@@ -38,17 +38,15 @@ Acesse o MySQL Workbench ou similar com as configurações do Dockerfile e crie 
 ### 3. Acesse o diretório '\backend\gestaoProdutosNucleMetropolitano' e crie a imagem docker do backend com o comando
 
 ```bash
+mvn clean install
+```
+
+```bash
 docker build -t gestaoprodutos-app .
 ```
 
 ```bash
 docker-compose up -d
-```
-
-Caso precise criar o .jar do projeto, execute o comando:
-
-```bash
-mvn clean install
 ```
 
 Para executar os testes das APIs do backend, execute o comando:
@@ -60,6 +58,10 @@ mvn test
 Acesse o Swagger da aplicação em `http://localhost:13434/api/swagger-ui/index.html` para visualizar a documentação das APIs disponíveis.
 
 ### 4. Acesse o diretório '\frontend\front-gestao-produtos' e execute o comando para rodar a aplicação Angular
+
+```bash
+ng install
+```
 
 ```bash
 ng serve
