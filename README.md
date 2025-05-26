@@ -2,6 +2,12 @@
 
 O stack da aplicação é composto por orquestração com Docker do banco de dados MySQL e do backend java com Spring Boot. O frontend é desenvolvido em Angular 17. A aplicação é uma API REST que permite o gerenciamento de usuários e produtos, com autenticação JWT.
 
+## Video da apresentação do projeto:
+
+<iframe src="https://drive.google.com/file/d/1o_qM3lbAoCE8LUloCQ5SDVquOLL0WKS6/preview" width="640" height="480" allow="autoplay"></iframe>
+
+`https://drive.google.com/file/d/1o_qM3lbAoCE8LUloCQ5SDVquOLL0WKS6/view?usp=sharing`
+
 ## Orientação para implementação
 
 Observação: Para implementação em produção ou homologação altere as senhas e credenciais e jwt.secret dos arquivos de configuração. Também é necessário alterar o arquivo `application.properties` do backend para apontar para o banco de dados em produção. E ajustar a configuração do CORS no `src\main\java\com\gestaoprodutos\config\SecurityConfig.java` para permitir o acesso do frontend.
