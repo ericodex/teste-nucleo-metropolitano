@@ -4,9 +4,7 @@ O stack da aplicação é composto por orquestração com Docker do banco de dad
 
 ## Video da apresentação do projeto:
 
-<iframe src="https://drive.google.com/file/d/1o_qM3lbAoCE8LUloCQ5SDVquOLL0WKS6/preview" width="640" height="480" allow="autoplay"></iframe>
-
-`https://drive.google.com/file/d/1o_qM3lbAoCE8LUloCQ5SDVquOLL0WKS6/view?usp=sharing`
+<https://drive.google.com/file/d/1o_qM3lbAoCE8LUloCQ5SDVquOLL0WKS6/view?usp=sharing>
 
 ## Orientação para implementação
 
